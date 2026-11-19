@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Books library{% endblock %}
+{% block breadcrumb %}Books library{% endblock %}
+{% block content %}
+<div class="page-title-row"><div><div class="eyebrow">YOUR COLLECTION</div><h1>Books <em>library.</em></h1><p class="muted">Every story in one place. Search, browse, and keep your shelf organised.</p></div><a class="btn primary" href="{{ url_for('add_book') }}">＋ Add a book</a></div>
+<form class="filter-bar" method="get" action="{{ url_for('books') }}"><div class="search-box"><span>⌕</span><input name="q" value="{{ q }}" placeholder="Search title, author or genre..."></div><select name="genre"><option value="">All genres</option>{% for genre in genres %}<option value="{{ genre.id }}" {{ 'selected' if selected_genre|string == genre.id|string else '' }}>{{ genre.name }}</option>{% endfor %}</select><button class="btn secondary" type="submit">Search</button>{% if q or selected_genre %}<a class="text-link" href="{{ url_for('books') }}">Clear</a>{% endif %}</form>
+<div class="results-note">{{ books|length }} book{{ '' if books|length == 1 else 's' }} found</div>
+<div class="table-panel"><table><thead><tr><th>BOOK</th><th>GENRE</th><th>YEAR</th><th>RATING</th><th>REVIEWS</th><th>ACTIONS</th></tr></thead><tbody>
+{% for book in books %}<tr><td><div class="table-book"><div class="cover cover-{{ (loop.index0 % 5)+1 }}">{{ ['✦','❋','◈','✺','❧'][loop.index0 % 5] }}</div><div><a class="table-title" href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a><span>{{ book.author }}</span></div></div></td><td><span class="genre-chip">{{ book.genre }}</span></td><td>{{ book.publication_year or '—' }}</td><td><span class="rating"><span>★</span> {{ book.avg_rating if book.avg_rating is not none else '—' }}</span></td><td>{{ book.review_count }}</td><td><div class="actions"><a href="{{ url_for('book_detail', book_id=book.id) }}">View</a><a href="{{ url_for('edit_book', book_id=book.id) }}">Edit</a><form method="post" action="{{ url_for('delete_book', book_id=book.id) }}" onsubmit="return confirm('Delete this book and all its reviews?')"><button class="danger-link" type="submit">Delete</button></form></div></td></tr>
+{% else %}<tr><td colspan="6"><div class="empty-state">No matching books. Try a different search or add a new book.</div></td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

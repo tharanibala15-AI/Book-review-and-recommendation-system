@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block breadcrumb %}<a href="{{ url_for('books') }}">Books</a> / {{ page_title }}{% endblock %}
+{% block content %}
+<div class="form-wrap"><a class="back-link" href="{{ url_for('books') }}">← Back to library</a><div class="eyebrow">BOOK DETAILS</div><h1>{{ page_title }}<em>.</em></h1><p class="muted">Add the details below so readers can find and review this title.</p>
+<form class="form-card" method="post"><div class="form-grid">
+<div class="field full"><label for="title">Book title *</label><input id="title" name="title" required maxlength="200" value="{{ book.title if book else '' }}" placeholder="e.g. The Alchemist"></div>
+<div class="field"><label for="author_id">Author *</label><select id="author_id" name="author_id" required><option value="">Choose an author</option>{% for author in authors %}<option value="{{ author.id }}" {{ 'selected' if book and book.author_id == author.id else '' }}>{{ author.name }}</option>{% endfor %}</select><small>Need a new author? Add them in Authors.</small></div>
+<div class="field"><label for="genre_id">Genre *</label><select id="genre_id" name="genre_id" required><option value="">Choose a genre</option>{% for genre in genres %}<option value="{{ genre.id }}" {{ 'selected' if book and book.genre_id == genre.id else '' }}>{{ genre.name }}</option>{% endfor %}</select></div>
+<div class="field"><label for="isbn">ISBN (optional)</label><input id="isbn" name="isbn" maxlength="20" value="{{ book.isbn or '' if book else '' }}" placeholder="ISBN number"></div>
+<div class="field"><label for="publication_year">Publication year</label><input id="publication_year" name="publication_year" type="number" min="0" max="2100" value="{{ book.publication_year or '' if book else '' }}" placeholder="e.g. 2022"></div>
+<div class="field"><label for="language">Language</label><input id="language" name="language" maxlength="60" value="{{ book.language if book else 'English' }}"></div>
+<div class="field full"><label for="description">Short description</label><textarea id="description" name="description" rows="4" placeholder="What is this book about?">{{ book.description if book else '' }}</textarea></div>
+</div><div class="form-actions"><a class="btn secondary" href="{{ url_for('books') }}">Cancel</a><button class="btn primary" type="submit">Save book ↗</button></div></form></div>
+{% endblock %}

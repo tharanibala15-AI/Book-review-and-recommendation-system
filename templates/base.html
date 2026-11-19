@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}PageTurner{% endblock %} · Book Review System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard') }}"><span class="brand-mark">P</span><span>PageTurner<small>BOOK CLUB MANAGER</small></span></a>
+    <div class="nav-label">WORKSPACE</div>
+    <nav>
+      <a class="{{ 'active' if request.endpoint == 'dashboard' else '' }}" href="{{ url_for('dashboard') }}"><span>▦</span> Overview</a>
+      <a class="{{ 'active' if request.endpoint in ['books','add_book','edit_book','book_detail'] else '' }}" href="{{ url_for('books') }}"><span>▤</span> Books library</a>
+      <a class="{{ 'active' if request.endpoint in ['authors_page'] else '' }}" href="{{ url_for('authors_page') }}"><span>♙</span> Authors</a>
+      <a class="{{ 'active' if request.endpoint == 'reviews_page' else '' }}" href="{{ url_for('reviews_page') }}"><span>✎</span> Reader reviews</a>
+      <a class="{{ 'active' if request.endpoint == 'recommendations' else '' }}" href="{{ url_for('recommendations') }}"><span>✧</span> Discover books</a>
+    </nav>
+    <div class="sidebar-bottom"><div class="mini-book">✦</div><strong>One more chapter?</strong><p>Find your next favourite read.</p><a href="{{ url_for('recommendations') }}">Explore picks ↗</a></div>
+    <div class="sidebar-foot">STUDENT PROJECT · 2026</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div class="crumb">Library <span>/</span> {% block breadcrumb %}Overview{% endblock %}</div><div class="profile"><span class="profile-dot">DR</span><span><strong>Demo Reader</strong><small>Library member</small></span></div></header>
+    <section class="page-content">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}<div class="flash-stack">{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}<button type="button" onclick="this.parentElement.remove()" aria-label="Dismiss">×</button></div>{% endfor %}</div>{% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </section>
+    <footer class="footer">Made for readers, by readers <span>·</span> PageTurner Book Review & Recommendation System</footer>
+  </main>
+</body>
+</html>

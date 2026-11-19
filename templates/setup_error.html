@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Database setup needed{% endblock %}
+{% block breadcrumb %}Setup needed{% endblock %}
+{% block content %}
+<div class="error-card"><div class="error-icon">!</div><div class="eyebrow">ONE QUICK SETUP STEP</div><h1>We couldn't reach <em>the library.</em></h1><p>The Flask app is running, but it cannot connect to MySQL. Check that MySQL Server is running, your <code>.env</code> values are correct, and you imported <code>schema.sql</code>.</p><ol><li>Start MySQL in MySQL Workbench or Services.</li><li>Copy <code>.env.example</code> to <code>.env</code> and enter your MySQL password.</li><li>Run <code>schema.sql</code> in MySQL Workbench.</li><li>Restart Flask and refresh this page.</li></ol><p class="muted">Technical details are printed in the VS Code terminal.</p></div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Reader reviews{% endblock %}
+{% block breadcrumb %}Reader reviews{% endblock %}
+{% block content %}
+<div class="page-title-row"><div><div class="eyebrow">NOTES FROM THE COMMUNITY</div><h1>Reader <em>reviews.</em></h1><p class="muted">Small thoughts can lead someone to a big new favourite.</p></div><a class="btn primary" href="{{ url_for('books') }}">Browse books</a></div>
+<div class="review-list-panel">{% for review in reviews %}<article class="review-list-item"><div class="avatar">{{ review.reader_name[:1]|upper }}</div><div class="review-list-body"><div class="review-list-top"><div><strong>{{ review.reader_name }}</strong><span>reviewed <a href="{{ url_for('book_detail', book_id=review.book_id) }}">{{ review.title }}</a></span></div><span class="rating"><span>★</span> {{ review.rating }}/5</span></div><p>{{ review.review_text }}</p><small>{{ review.review_date.strftime('%d %b %Y, %I:%M %p') if review.review_date else '' }}</small></div><form method="post" action="{{ url_for('delete_review', review_id=review.id) }}" onsubmit="return confirm('Delete this review?')"><button class="danger-link" type="submit">Delete</button></form></article>{% else %}<div class="empty-state">There are no reviews yet.</div>{% endfor %}</div>
+{% endblock %}

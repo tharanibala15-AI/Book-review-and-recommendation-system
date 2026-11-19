@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Discover books{% endblock %}
+{% block breadcrumb %}Discover books{% endblock %}
+{% block content %}
+<div class="discover-banner"><div class="eyebrow">YOUR NEXT CHAPTER STARTS HERE</div><h1>Find a book to <em>fall into.</em></h1><p>Browse by genre and see what readers have rated highly. Picks are sorted using average rating, then review count.</p><a class="btn light" href="{{ url_for('books') }}">Explore the full library ↗</a><div class="banner-deco">✧</div></div>
+<form class="filter-bar compact-filter" method="get"><label for="genre">I'm in the mood for</label><select id="genre" name="genre"><option value="">Every genre</option>{% for genre in genres %}<option value="{{ genre.id }}" {{ 'selected' if selected_genre|string == genre.id|string else '' }}>{{ genre.name }}</option>{% endfor %}</select><button class="btn secondary" type="submit">Show books</button></form>
+<div class="recommend-grid">{% for book in books %}<a class="recommend-card" href="{{ url_for('book_detail', book_id=book.id) }}"><div class="recommend-cover cover-{{ (loop.index0 % 5)+1 }}"><span>{{ ['✦','❋','◈','✺','❧'][loop.index0 % 5] }}</span><small>PAGETURNER<br>READING LIST</small></div><div class="recommend-card-body"><span class="genre-chip">{{ book.genre }}</span><h3>{{ book.title }}</h3><p>by {{ book.author }}</p><div class="recommend-bottom"><span class="rating"><span>★</span> {{ book.avg_rating if book.avg_rating is not none else 'New' }}</span><small>{{ book.review_count }} reviews</small></div><p class="recommend-description">{{ book.description or 'A title waiting to be explored.' }}</p></div></a>{% else %}<div class="empty-state">No books in this genre yet.</div>{% endfor %}</div>
+{% endblock %}
